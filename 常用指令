@@ -1,0 +1,44 @@
+faster rcnn　vgg16训练指令
+
+./experiments/scripts/faster_rcnn_end2end.sh 0 VGG16 pascal_voc
+./experiments/scripts/faster_rcnn_end2end.sh 0 ZF pascal_voc
+
+sh experiments/scripts/train_resnet50_bn_scale_merged_0712_end2end.sh
+sh experiments/scripts/train_resnet101_bn_scale_merged_0712_end2end.sh
+
+sh experiments/scripts/train_resnet50_bn_scale_merged_0712_end2end.sh
+sh experiments/scripts/test_resnet101_bn_scale_merged_0712_end2end.sh
+
+./experiments/scripts/rfcn_end2end.sh 0 ResNet-101 pascal_voc
+./experiments/scripts/rfcn_end2end.sh 0 ResNet-50 pascal_voc
+./experiments/scripts/rfcn_end2end_ohem.sh 0 ResNet-50 pascal_voc
+./experiments/scripts/rfcn_end2end_ohem.sh 0 ResNet-101 pascal_voc
+
+
+
+./darknet detector train cfg/voc.data cfg/yolov3-voc.cfg scripts/darknet53.conv.74 -gpus 0
+
+
+
+python ./tools/test_net.py --gpu 0 --def models/pascal_voc/ResNet-101/rfcn_end2end/test_agnostic.prototxt --net /home/heyue/py-R-FCN/output/rfcn_end2end_ohem/voc_2007_trainval/resnet101_rfcn_ohem_iter_10000.caffemodel --imdb voc_2007_test --cfg experiments/cfgs/rfcn_end2end_ohem.yml
+python ./tools/test_net.py --gpu 0 --def models/pascal_voc/ResNet-101/rfcn_end2end/test_agnostic.prototxt --net ResNet-101 --imdb voc_2007_test --cfg experiments/cfgs/rfcn_end2end_ohem.yml
+
+
+cd ~/py-R-FCN/tools
+python demo_rfcn.py --net ResNet-50  
+
+cd ~/b-frcnn/py-faster-rcnn
+./tools/demo.py --net vgg16
+
+cd ~/py-R-FCN
+./experiments/scripts/rfcn_end2end_ohem_test.sh 0 ResNet-101 pascal_voc
+
+./experiments/scripts/train_resnet101_bn_scale_merged_0712_end2end_ohem.sh 0 ResNet-101 pascal_voc
+
+
+
+
+
+
+
+
